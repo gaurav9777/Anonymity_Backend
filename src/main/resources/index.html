@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+<h1>Chat Application</h1>
+<button id="createRoom">Create Room</button>
+<br><br>
+<input type="text" id="roomCode" placeholder="Enter Room Code">
+<button id="joinRoom">Join Room</button>
+<p id="response"></p>
+
+<script>
+    const socket = new WebSocket("ws://localhost:8080/ws/room");
+
+    socket.onmessage = function (event) {
+        document.getElementById("response").innerText = event.data;
+    };
+
+    document.getElementById("createRoom").onclick = function () {
+        socket.send("CREATE");
+    };
+
+    document.getElementById("joinRoom").onclick = function () {
+        const code = document.getElementById("roomCode").value;
+        socket.send(`JOIN:${code}`);
+    };
+</script>
+</body>
+</html>
