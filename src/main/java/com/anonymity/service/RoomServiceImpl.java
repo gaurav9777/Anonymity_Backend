@@ -33,13 +33,11 @@ public class RoomServiceImpl {
 
 /*
 
-package codeforces;
-
 import java.util.*;
 
 import static java.lang.System.exit;
 
-public class D {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the Game!!!");
@@ -119,6 +117,10 @@ public class D {
                     playersTurn = true;
                     totalState += 1;
                     System.out.println("already that position is filled please check the game status\n and place provide the untouched position");
+                }else if(status == 0){
+                    playersTurn = true;
+                    totalState += 1;
+                    System.out.println("position is not correct choose between 1 To "+totalState);
                 }
                 doWeHaveWinner = checkForWinner(gamePosition);
                 finalWinner = doWeHaveWinner ? "A" : "Both Lost";
@@ -128,9 +130,13 @@ public class D {
                 int coOrdinatePosition = sc.nextInt();
                 int status = placeAtPosition(gamePosition,coOrdinatePosition-1,dimension,false);
                 if(status == -1){
-                    playersTurn = true;
+                    playersTurn = false;
                     totalState += 1;
                     System.out.println("already that position is filled please check the game status\n and place provide the untouched position");
+                }else if(status == 0){
+                    playersTurn = false;
+                    totalState += 1;
+                    System.out.println("position is not correct choose between 1 To "+totalState);
                 }
                 doWeHaveWinner = checkForWinner(gamePosition);
                 finalWinner = doWeHaveWinner ? "B" : "Both Lost";
@@ -141,9 +147,17 @@ public class D {
     }
 
     private static int placeAtPosition(String[][] gamePosition, int coOrdinatePosition,int dimension,boolean playerAToPlay) {
+        int gameFloorLen = gamePosition.length;
+        int gameFloorWid = gamePosition[0].length;
         int rowPosition = (coOrdinatePosition/dimension);
         int colPosition = (coOrdinatePosition%dimension);
-        if(gamePosition[rowPosition][colPosition].equals("X") || gamePosition[rowPosition][colPosition].equals("O")){
+        if(rowPosition >= gameFloorLen || colPosition >= gameFloorWid){
+            return 0;
+        }
+        if(rowPosition <0 || colPosition<0){
+            return 0;
+        }
+        if( rowPosition <gameFloorLen && colPosition <gameFloorWid &&( gamePosition[rowPosition][colPosition].equals("X") || gamePosition[rowPosition][colPosition].equals("O"))){
             return -1;
         }
         gamePosition[rowPosition][colPosition] = playerAToPlay == true ?  "X" : "O";
@@ -230,7 +244,6 @@ public class D {
     }
 
 }
-
 
 
 
